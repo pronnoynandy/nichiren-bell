@@ -1,0 +1,53 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0; /* Or any background you like */
+    overflow: hidden; /* Prevents scrollbars if button is huge */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#bellButton {
+    /* --- Adjust these dimensions as needed --- */
+    width: 200px;  /* Example size */
+    height: 200px; /* Example size */
+    /* --- Or use padding if your logo dictates size --- */
+    /* padding: 20px; */
+
+    background-color: #ffffff; /* Button background, can be transparent */
+    border: 5px solid #333; /* Example border */
+    border-radius: 50%; /* Makes it circular, adjust if needed */
+    cursor: pointer;
+    outline: none; /* Removes default browser outline */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Optional shadow */
+    transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+
+    /* For aligning the image inside */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensures logo doesn't spill out if not perfectly sized */
+}
+
+#bellButton:hover {
+    background-color: #f8f8f8; /* Slight hover effect */
+}
+
+#bellButton:active {
+    transform: scale(0.95); /* Click effect */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Click shadow effect */
+}
+
+#buttonLogo {
+    max-width: 80%;  /* Ensure logo fits well within the button */
+    max-height: 80%; /* Adjust percentage as needed */
+    display: block; /* Removes extra space below image */
+    pointer-events: none; /* Makes sure clicks go to the button, not the image */
+}
