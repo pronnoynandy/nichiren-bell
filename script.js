@@ -1,42 +1,69 @@
 document.addEventListener('DOMContentLoaded', () => {
     const bellButton = document.getElementById('bellButton');
-    
-    // --- IMPORTANT: Replace with the path to YOUR audio file ---
-    const bellSoundFile = 'sounds/yt_sgi_bell.mp3'; 
-    // --- You can also use other formats like .wav or .ogg if supported by browsers ---
+    const soundSelector = document.getElementById('soundSelector');
+    const dampenButton = document.getElementById('dampenButton');
 
-    if (bellButton) {
-        bellButton.addEventListener('click', () => {
-            playSound();
-        });
+    // --- IMPORTANT: Make sure your sound files exist at these paths ---
+    // These are now dynamically read from the soundSelector's options
+    // Example initial sound files (ensure these match your <option> values in HTML)
+    // const defaultSound1 = 'sounds/bell_recording.mp3';
+    // const defaultSound2 = 'sounds/yt_sgi_bell.mp3';
+
+    let activeSounds = []; // Array to keep track of currently playing sounds
+
+    if (bellButton && soundSelector && dampenButton) {
+        bellButton.addEventListener('click', playSelectedSound);
+
+        dampenButton.addEventListener('click', dampenAllSounds);
+
     } else {
-        console.error("Button with ID 'bellButton' not found.");
+        console.error("One or more essential page elements (bellButton, soundSelector, dampenButton) not found.");
     }
 
-    function playSound() {
-        // Create a new Audio object each time the button is clicked
-        // This allows sounds to overlap (layer)
-        const audio = new Audio(bellSoundFile);
-        
+    function playSelectedSound() {
+        const selectedSoundFile = soundSelector.value; // Get the selected sound file path
+        if (!selectedSoundFile) {
+            console.error("No sound file selected or sound path is invalid.");
+            return;
+        }
+
+        const audio = new Audio(selectedSoundFile);
+        activeSounds.push(audio); // Add to our list of active sounds
+
         audio.play()
             .then(() => {
-                // Optional: Code to run after sound starts playing
-                // console.log("Bell sound started playing.");
+                // console.log(`Playing: ${selectedSoundFile}`);
             })
             .catch(error => {
-                // Handle potential errors, e.g., file not found, browser restrictions
-                console.error("Error playing sound:", error);
-                // You might want to inform the user here, e.g.,
-                // alert("Could not play the sound. Please check the audio file or browser settings.");
+                console.error("Error playing sound:", selectedSoundFile, error);
+                // Remove from active sounds if playback fails immediately
+                activeSounds = activeSounds.filter(sound => sound !== audio);
             });
+
+        // When a sound finishes playing, remove it from the activeSounds array
+        audio.addEventListener('ended', () => {
+            activeSounds = activeSounds.filter(sound => sound !== audio);
+            // console.log(`Finished playing, removed from active list. Count: ${activeSounds.length}`);
+        });
     }
 
-    // Optional: Preload the audio for faster first play, though for layering new instances are made anyway.
-    // This might help if the *first* click has a slight delay.
-    // function preloadAudio() {
-    //     const audio = new Audio(bellSoundFile);
-    //     audio.preload = 'auto'; 
-    //     // Note: this preloads ONE instance. Subsequent clicks will still create new ones.
+    function dampenAllSounds() {
+        // console.log(`Dampening ${activeSounds.length} sounds.`);
+        activeSounds.forEach(audio => {
+            audio.pause();       // Stop the sound
+            audio.currentTime = 0; // Reset its playback position
+        });
+        activeSounds = []; // Clear the list of active sounds
+        // console.log("All sounds dampened and list cleared.");
+    }
+
+    // Optional: Preload the initially selected sound for faster first play.
+    // This is less critical now with multiple sounds, but can still help for the default.
+    // function preloadInitialSound() {
+    //     if (soundSelector.options.length > 0) {
+    //         const initialSound = new Audio(soundSelector.options[0].value);
+    //         initialSound.preload = 'auto';
+    //     }
     // }
-    // preloadAudio(); 
+    // preloadInitialSound();
 });

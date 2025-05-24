@@ -2,18 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bell Button</title>
+    <!-- This meta tag is crucial for preventing zoom on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Bell Button Deluxe</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="button-container">
-        <button id="bellButton" aria-label="Play Bell Sound">
-            <img id="buttonLogo" src="images/bell.png" alt="Bell Logo">
-        </button>
+    <div class="app-container">
+        <div class="controls-container">
+            <label for="soundSelector">select bell sound:</label>
+            <select id="soundSelector">
+                <!--
+                    HOW TO EDIT SOUNDS AND LABELS:
+                    - The 'value' attribute should be the path to your sound file
+                      e.g., "sounds/my-first-bell.mp3"
+                    - The text between <option> and </option> is the label the user sees
+                      e.g., <option value="sounds/bell-sound-1.mp3">Classic Bell</option>
+                -->
+                <option value="sounds/bell_recording.mp3">recording (recommended) </option>
+                <option value="sounds/yt_sgi_bell.mp3">from youtube </option>
+                <!-- Add more <option> elements here if you have more sounds -->
+            </select>
+            <button id="dampenButton">dampen</button>
+        </div>
+
+        <div class="button-container">
+            <button id="bellButton" aria-label="Play Bell Sound">
+                <img id="buttonLogo" src="images/bell.png" alt="Bell Logo">
+            </button>
+        </div>
+
+        <p id="dedicationText">
+            <!-- EDIT YOUR DEDICATION TEXT HERE -->
+            for mumma
+        </p>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
-<!-- Test deployment trigger -->
